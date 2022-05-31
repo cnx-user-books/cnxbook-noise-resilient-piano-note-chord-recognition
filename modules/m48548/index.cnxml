@@ -1,0 +1,30 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+
+<title>Source Code</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m48548</md:content-id>
+  <md:title>Source Code</md:title>
+  <md:abstract>Summarizes ELEC 301 Project: Noise Resilient Piano Chord And Note Detection</md:abstract>
+  <md:uuid>c95d2d7a-f70d-4a2a-beeb-256781c97b2a</md:uuid>
+</metadata>
+
+<content>
+  <para id="eip-605"><title>MATLAB Code </title>You can download our implementation of the algorithm below:
+<newline/>
+
+<media id="course-syl" alt="MATLAB Code">
+  <download mime-type="application/msword" src="MuScribers MATLAB Code.zip"/>
+</media>
+
+
+</para><para id="eip-75"><title>Test Songs</title>You can also download the songs we tested our implementation on:
+<newline/>
+
+<media id="courfdsse-syl" alt="MATLAB Code">
+  <download mime-type="application/msword" src="Test Songs.zip"/>
+</media></para><para id="delete_me">
+     <!-- Insert module text here -->
+  </para>
+</content>
+
+</document>

@@ -1,0 +1,54 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+
+<title>Introduction</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m48363</md:content-id>
+  <md:title>Introduction</md:title>
+  <md:abstract/>
+  <md:uuid>ab745375-197c-4f63-9e6b-89f2fa5c9a6b</md:uuid>
+</metadata>
+
+<content>
+  <para id="eip-415"><title>Automatic Music Transcription: An Introduction</title>Music Transcription is the process of transcribing a piece of music, usually onto sheet music . This process involves identification of notes, rhythm, key signature, etc.  Automatic Music Transcription has been a hot topic of research in signal processing for decades now.  In terms of signal processing, automatic music transcription can be broken down into two large problems: locating the notes and identifying what pitch they are. While these problems have been solved for monophony (single line of melody), they are still largely unsolved for polyphony (multiple lines of independent melodies).  Our project aims at accurate and robust detection of homophony (single melody line with a chord line).  The differences between the three can better be understood by listening to them:
+<newline/>
+<newline/>
+Baa Baa Black Sheep: A Monophony
+<media id="monophony" display="inline" alt="Baa Baa Black Sheep: A Monophony">
+  <audio mime-type="audio/x-wav" src="BaaBaaBlackSheep.wav" controller="true"/>
+</media>
+<newline/>
+
+Saints Go Marching On: A Homophony
+<media id="homophony" display="inline" alt="Saints Go Marching On: A Homophony">
+  <audio mime-type="audio/x-wav" src="SaintsGoMarchingOn.wav" controller="true"/>
+</media>
+<newline/>
+
+Stars And Stripes Forever: A Polyphony
+<media id="polyphony" display="inline" alt="Stars And Stripes Forever: A Polyphony">
+  <audio mime-type="audio/x-wav" src="StarsStripes.wav" controller="true"/>
+</media>
+</para><para id="eip-388"><figure id="introdm"><media id="intromm" alt="A dog sitting on a bed">
+    <image mime-type="image/png" src="../../media/Introduction.png"/>
+  </media>
+ 
+<caption>A simple overview of Automatic Music Transcription</caption></figure></para><para id="eip-772"><title>Our Motivation And Approach</title>Motivation
+We aim to explore the inner workings of automated music transcription. In doing so, we hope to realize our goal of making an improved and more user accessible note detection and transcription algorithm.
+We also aim to streamline the process between the playing and writing of music. Composers will be able to play their work and have it transcribed by the end of it. People who want the sheet music to a song they like who don't have perfect pitch can run a recording through our algorithm and get the notes themselves.
+<newline/><newline/>
+Our project's main constraints were: <newline/>
+1. Single Instrument (Grand Piano)<newline/>
+2. Frequency of piano key presses of less than 3 notes/sec <newline/>
+3. No reverberation <newline/>
+<newline/>
+Our team started off with an independent implementation before exploring several existing implementations. We augmented our approach with the use of Harmonic Pitch Class Profile (HPCP) that extended our algorithm by giving us likelihoods of a note being classified as one of 12 piano notes in an octave. 
+</para><para id="eip-581"><figure id="motivf"><media id="hammifng" alt="ham">
+	   
+  <image mime-type="image/bmp" src="../../media/Motivation.png"/>	 
+</media>
+<caption>General overview of our approach to automatic piano note and chord recognition</caption></figure></para><para id="delete_me">
+     <!-- Insert module text here -->
+  </para>
+</content>
+
+</document>

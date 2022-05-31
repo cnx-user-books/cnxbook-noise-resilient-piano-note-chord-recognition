@@ -1,0 +1,46 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+
+<title>Results &amp; Conclusion</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m48470</md:content-id>
+  <md:title>Results &amp; Conclusion</md:title>
+  <md:abstract/>
+  <md:uuid>d55af2cf-9f97-473c-83bd-8ba97922d0ac</md:uuid>
+</metadata>
+
+<content>
+  <para id="delete_me"><title>Results</title>We tested our implementation on a variety of piano songs, created digitally as well as recorded from a Grand Piano.  Our metric for accuracy is defined to be: 
+  </para><para id="eip-866"><media id="eq" alt="eq1">
+	   
+  <image mime-type="image/png" src="../../media/accuracy_form.png"/>
+		 
+</media></para><para id="eip-851">Here x is the correct string of notes/chords and y is the one created by our implementation <newline/>
+N is length of x <newline/>
+edit_distance gives the number of changes (insertions, substitutions or deletions) needed  to go from  string x to y   <newline/>
+</para><para id="eip-19"><list id="forces-list">
+  <title>The average accuracy on testing eight different songs was:</title>
+  <item>92% on songs with single melody line</item> 
+  <item>86% on songs with single chord line</item> 
+  <item>78% on songs with homophonies</item>
+</list></para><para id="eip-685"><title>Noise Resiliency</title>One of the features of our implementation is noise-resiliency. With additive Gaussian noise (AWGN), the performance is maximized for audio with above SNR of -5 dB. The following figure illustrates this. We tested noise resiliency on a single song, adding AWGN incrementally. We ran the trial ten times. 
+</para><para id="eip-970"><figure id="resu"><media id="res" alt="noise.">
+	   
+  <image mime-type="image/png" src="../../media/RESULTS.png"/>
+		 
+</media>
+<caption>Summary of our testing. The songs can be found in the "Source Code" section. Chord detection threshold is the beta value that determines which note(s) to pick in the HPCP vector. Threshold=mean(HPCP)*Beta. If the value at index i of the HPCP is greater than this threshold, index i is picked as a note.</caption></figure></para><para id="eip-652"><media id="SNR" alt="noise.">
+	   
+  <image mime-type="image/bmp" src="../../media/SNR_BA_10 iters.bmp"/>
+		 
+</media></para><section id="eip-82"><title>Conclusion</title><para id="eip-600">Our implementation of a piano note and chord recognition system was successful in varying degrees. Depending upon the texture of the song and independent variables in our algorithm, we were able to get an average accuracy of 87.53%.
+
+<newline/>
+<newline/>
+We applied our knowledge from ELEC 301 to create the onset detection, gain compression, filtering and spectral analysis algorithms independently. We then augmented our implementation with the use of Harmonic Pitch Class Profile (HPCP) that has the added benefit of noise resiliency. 
+<newline/>
+<newline/>
+By exploring the topic of automatic music transcription, and implementing our own version of homophony detection, we have created a base from where we can only improve the accuracy and performance of music recognition automation system.
+
+</para></section></content>
+
+</document>

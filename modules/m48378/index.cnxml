@@ -1,0 +1,37 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+
+<title>Harmonic Pitch Class Profile (HPCP)</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m48378</md:content-id>
+  <md:title>Harmonic Pitch Class Profile (HPCP)</md:title>
+  <md:abstract/>
+  <md:uuid>cfbe1d23-d910-4cd8-86ca-8546d7717546</md:uuid>
+</metadata>
+
+<content>
+  <para id="delete_me"><title>Harmonic Pitch Class Profile</title>The key to note recognition is analyzing the frequency consistence of the audio clip. Suppose the clip we are analyzing consists of one or several individual notes, then unsurprisingly, the FFT of the audio should have several "peaks". HPCP provides a way to pin down the note(s) by analyzing these "peaks" in the FFT plot.</para><para id="eip-782"><title>Big Picture</title>The HPCP algorithm returns a vector of length 12, representing the 12 notes within an octave. The elements will in the end be normalized, representing the likelihood that the corresponding note is actually in the audio. The values are obtained as follows:</para><para id="eip-96"><media id="equationa1" alt="..">
+	   
+  <image mime-type="image/bmp" src="../../media/hpcp1.bmp"/>
+		 
+</media></para><para id="eip-783">where n = 1, ... 12, ai is the linear magnitude of the ith peak, and fi is the frequency value of the ith peak. i = 1, ... nPeaks, where nPeaks is the number of spectral peaks that we consider, and w is the weight of the frequency fi.</para><para id="eip-108">Basically, the note represented by integer n is compared with every peak in FFT. The weighting function represents the similarity between the note and the peak. This correlation is then multiplied by the square of the amplitude of the peak. We do this for every peak and add all the correlation up to get the "likelihood" that note n is compatible with the FFT graph. We repeat the same operations for all 12 values of n, and the HPCP vector is complete.</para><para id="eip-39"><title>Weighting Function</title>The weighting function mentioned above is determined by the following three steps.</para><para id="eip-396">STEP ONE:</para><para id="eip-316"><media id="equationa2" alt="...">
+	   
+  <image mime-type="image/bmp" src="../../media/hpcp2.bmp"/>
+		 
+</media></para><note id="eip-818">where size=12. f_ref can be set to 440Hz but doesn't affect the general result. Here fn is the frequency of the note represented by n in a certain octave.</note><para id="eip-973">STEP TWO:</para><para id="eip-18"><media id="equationa3" alt="....">
+	   
+  <image mime-type="image/bmp" src="../../media/hpcp3.bmp"/>
+		 
+</media></para><note id="eip-271">where m is the integer that minimizes the magnitude of the distance d. The role of m is to drive d to zero as much as possible so that the potential difference in vector is eliminated.</note><para id="eip-301">STEP THREE:</para><para id="eip-563"><media id="equationa4" alt=".....">
+	   
+  <image mime-type="image/bmp" src="../../media/hpcp4.bmp"/>
+		 
+</media></para><note id="eip-21">where l is the length of the weighting window. This value is a parameter of the algorithm that can be adjusted. What this equation says is that when d is small enough, we think there is a correlation between the note and the peak and return a positive value given by cosine square. Otherwise we set the correlation to zero.</note><para id="eip-385"><title>Normalization</title>After we have obtained the original HPCP results, we normalize the biggest term to 1. Now we have a vector of length 12 and each element is between 0 and 1, each representing the "possibility" that the corresponding note is in that audio clip.</para><para id="eip-19"><title>Example</title>Here is an HPCP vector for a C Major chord:</para><para id="eip-312"><media id="cbar" alt=".">
+  <image mime-type="image/bmp" src="../../media/c major.bmp"/>
+</media><note id="eip-985">The integers of the x axis represents 12 notes within an octave. 1 represents #A and 12 represents A. We can see clearly that C, E, and G are the three notes with the most significant correlation, therefore we can safely conclude that the audio most likely consists of C, E, and G, which is correct.</note></para><para id="eip-51">Here is the input file:</para><para id="eip-356"><media id="c" alt="yep">
+	   
+  <image mime-type="image/bmp" src="../../media/c major 0.bmp"/>
+		 
+</media>
+        </para><section id="eip-175"><title>Octave Detection</title><para id="eip-480">One problem with the HPCP algorithm is that it ignores what octave the original note was in. We have written a function findOctave to rectify this.</para><para id="eip-666">First off, we exploit the fact that a note's fft is the same regardless of what pitch it is: spikes the the note's pitch's fundamental frequency and all its multiples. So an A4 starts at 440 Hz, and has spikes at 880, 1320, etc. Our HPCP will identify this note as an A. To find out what octave it is in, we just look at the location of the lowest spike because all other spikes are multiples of this one frequency. So we find it at 440 Hz.</para><para id="eip-501">This process is repeated for every pitch detected by the HPCP, so for the C Major chord above, it'd look for the harmonics of C and find the lowest at 261 Hz (C4), then E at 330 Hz (E4), and G at 392 Hz (G4).</para><para id="eip-502">This method is fast and accurate -- however there is one limitation: if there are multiple notes of the same pitch but in different octaves (e.g. C4 and C5 and C6), their spectra would overlap and the algorithm would only detect the lowest note, C4.</para></section></content>
+
+</document>

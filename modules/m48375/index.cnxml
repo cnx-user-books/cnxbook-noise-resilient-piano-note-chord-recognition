@@ -1,0 +1,133 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+
+<title>Onset Detection</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m48375</md:content-id>
+  <md:title>Onset Detection</md:title>
+  <md:abstract/>
+  <md:uuid>146bb5b7-41bf-4687-badf-0571f5b90c8e</md:uuid>
+</metadata>
+
+<content>
+  <para id="delete_me"><title>Onset Detection</title>Onset detection is the detection of attacks, or the start of each note. When a song is plotted over time, the easily identifiable spikes represent the attack of a new note. We exploit this property to divide the song into individual notes in sequence. (It is important to note that there are songs where all the notes do not move in sequence, e.g. a chord is sustained while the melody moves through many different notes. This problem is discussed later.) 
+
+
+  </para><example id="eip-342"><title>Input Signal "Baa Baa Black Sheep"</title><media id="babaa2" alt=".">
+  <image mime-type="image/bmp" src="../../media/Onset Baa Baa Black Sheep.bmp"/>
+</media></example><para id="eip-762">At first sight, we can see that note attacks are clearly defined by large spikes. Though these spikes are visually easy to identify, when we take a closer look at the signal, we see that it is fluctuating rapidly, meaning that there is a lot of high frequency content in each note. Thus, to identify the peaks of each note, we can’t simply look at all the high points or the points where the value of the data rises exponentially. We’ll have to do some pre-processing and filtering to identify the edges computationally.
+</para><example id="eip-10"><title>Zooming in on one note</title><media id="closerlook2" alt=".">
+  <image mime-type="image/bmp" src="../../media/Onset Baa Baa Black Sheep2.bmp"/>
+</media></example><para id="eip-481">We decided to try out a low-pass filter to smooth out the sharp changes in the song so all that’s left are smooth increases and decreases, where each rise and fall corresponds to a single note. First we decided that the length of the filter should be proportional to the sampling frequency, which fixes its length in time. Then we decided to try out a simple boxcar filter and convolve that with the square (i.e. the power) of our signal. It turned out that we decided to convolve it with a boxcar 3 times over, which is the same as convolve it once with 3 boxcars convolved together. Visually, this was our filter:</para><example id="eip-314"><title>Thrice Convolved Boxcar</title><media id="filter2" alt=".">
+  <image mime-type="image/bmp" src="../../media/Onset Low Pass Filter.bmp"/>
+</media></example><para id="eip-9">And here’s our smoothed signal superimposed on our original file:
+</para><example id="eip-65"><title>Original Signal with Smoothed Curve</title><media id="smoothedsignal2" alt=".">
+  <image mime-type="image/bmp" src="../../media/Onset Baa Baa Filtered.bmp"/>
+</media></example><para id="eip-299">We proceed to use MATLAB’s function “findpeaks.” We twiddled with parameters like the minimum height of the peaks listed and the minimum distance between peaks to ensure that small ripples in some attacks did not get counted twice. The algorithm then takes the distance between the peaks as the lengths of the notes.
+	
+</para><para id="eip-163">There is a second part of the algorithm that calculates the beats per minute and attempts to characterize each note in terms of its beats, i.e. a half-note, quarter-note, eight-note, etc. This is done by finding the smallest interval, corresponding to the shortest note, and assumes all the note durations are multiples of this length. We assume the bpm of our song ranges from 100 bpm to 200 bpm – if we don’t, then we could say a quarter note at 80 bpm is the same as a half note at 160 bpm. There is a degree of tolerance (that can be varied) to determine whether two note durations correspond to the same note, as the lengths of each note we get are not perfect multiples of each other. This mapping works very well for synthesized music, but is not practical for live recordings of music or overtly rubato music, as the length of each beat is not fixed.</para><para id="eip-946">Below is a sample output of our note divider function where data1 is a synthesized audio file of Hot Cross Buns, fs is the sampling frequency of 44.1kHz, bpm is the beats per minute, notes is the estimated length of each note, and notetimes has is the length of each note in samples:
+</para><para id="eip-769">[bpm, notes, notetimes] = notedivider(data1, fs)
+</para><table id="eip-250" summary="Table of notes">
+<tgroup cols="3"><tbody>
+  <row>
+    <entry>bpm</entry>
+    <entry>notes</entry>
+    <entry>note times</entry>
+  </row>
+  <row>
+    <entry>120.8288</entry>
+    <entry>1.000</entry>
+    <entry>22754</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>1.000</entry>
+    <entry>21846</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>2.000</entry>
+    <entry>43401</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>1.000</entry>
+    <entry>22925</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>1.000</entry>
+    <entry>21847</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>2.000</entry>
+    <entry>43819</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>0.500</entry>
+    <entry>10987</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>0.500</entry>
+    <entry>11054</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>0.500</entry>
+    <entry>10563</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>0.500</entry>
+    <entry>11136</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>0.500</entry>
+    <entry>10793</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>0.500</entry>
+    <entry>11321</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>0.500</entry>
+    <entry>10803</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>0.500</entry>
+    <entry>10938</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>1.000</entry>
+    <entry>23082</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>1.000</entry>
+    <entry>21847</entry>
+  </row>
+  <row>
+    <entry/>
+    <entry>3.000</entry>
+    <entry>61401</entry>
+  </row>
+</tbody>
+
+
+</tgroup>
+</table><para id="eip-870"><title>Gain Compression</title>In order to make our detection algorithm robust, we performed gain compression on the signal before processing it. Compression flattens large spikes and amplifies rest of the signal. It therefore allows us to "clean up" the signal especially when the pianist plays certain notes softly and other notes loudly.</para><para id="eip-247">Below is our algorithm.
+x[n] is our input signal, y[n] is the compressed signal, lambda is a parameter greater than 1. Increasing it equalizes the note heights more and more. For our implementation we used a lambda value of 2.</para><equation id="eip-223"><media id="equation1" alt="Compression of a signal">
+  <image mime-type="image/png" src="../../media/CodeCogsEqn (2).png"/>
+</media></equation><example id="eip-440"><media id="compression1" alt="Compression of a signal">
+  <image mime-type="image/bmp" src="../../media/Gain Compression3.bmp"/>
+</media></example><para id="eip-966">After compression, we smooth the signal using a thrice convolved boxcar filter. This will produce a single continuous line that outlines the edge of the signal. This makes detecting the onset of a note easier by allowing us to locate the peak of a note with more ease. 
+  </para></content>
+
+</document>
